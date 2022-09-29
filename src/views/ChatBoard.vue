@@ -1,6 +1,6 @@
 <template>
     <v-app id="inspire">
-     
+    <chatSidebar/>
       <v-main>
         <v-container
           class="py-8 px-6"
@@ -67,8 +67,12 @@
   
   <script>
     import firebase from "@/firebase/firebase"
+    import chatSidebar from '@/components/layouts/chatSidebar'
 
     export default {
+    components: {
+        chatSidebar
+    },
       async created(){
         this.user_id = this.$route.query.user_id;
         console.log('user_id', this.user_id);
@@ -85,11 +89,6 @@
       },
       data: () => ({
         messages: [
-            // {message: 'message1'},
-            // {message: 'message2'},
-            // {message: 'message3'},
-            // {message: 'message4'},
-            // {message: 'message5'},
         ],
         body: '',
         user_id: '',

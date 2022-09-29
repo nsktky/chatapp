@@ -1,5 +1,6 @@
 <template>
     <v-app id="inspire">
+    <chatSidebar/>
       <v-app-bar
         app
         shrink-on-scroll
@@ -36,7 +37,10 @@
   </template>
   
   <script>
+    import chatSidebar from '@/components/layouts/chatSidebar'
     export default {
-      //
+        components: {
+            chatSidebar
+        }
     }
   </script>
