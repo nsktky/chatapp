@@ -4,6 +4,7 @@
       <v-card class="login-form">
         <v-card-title class="login-title">Login</v-card-title>
         <v-card-subtitle>ユーザー情報を入力してください。</v-card-subtitle>
+        <v-btn text color="light-blue" to="signup">新規登録はこちら</v-btn>
         <v-form ref="form" v-model="valid" lazy-validation>
           <v-text-field
             v-model="email"
@@ -12,9 +13,10 @@
             required
           ></v-text-field>
 
-          <v-text-field v-model="password" type="password" label="Password"> </v-text-field>
+          <v-text-field 
+            v-model="password" type="password" label="Password"> </v-text-field>
 
-          <v-btn color="success" class="login-btn"> LOGIN </v-btn>
+          <v-btn color="success" class="login-btn" :disabled="isValid"> LOGIN </v-btn>
 
           <v-btn> CLEAR </v-btn>
         </v-form>
@@ -51,11 +53,16 @@ export default {
     ],
     email: "",
     emailRules: [
-      (v) => !!v || "E-mail is required",
-      (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+      (v) => !!v || "メールアドレスを入力してください",
+      (v) => /.+@.+\..+/.test(v) || "正しいメールアドレスを入力してください",
     ],
     password: "",
   }),
+  computed: {
+    isValid() {
+        return !this.valid;
+    }
+  },
   methods: {
     validate() {
       this.$refs.form.validate();
