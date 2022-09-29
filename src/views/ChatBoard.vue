@@ -25,9 +25,9 @@
                       </v-list-item-avatar>
   
                       <v-list-item-content>
-                        <v-list-item-title>Message {{ n }}</v-list-item-title>
+                        <!-- <v-list-item-title>Message {{ n }}</v-list-item-title> -->
   
-                        <v-list-item-subtitle>
+                        <v-list-item-subtitle class="message">
                           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil repellendus distinctio similique
                         </v-list-item-subtitle>
                       </v-list-item-content>
@@ -44,14 +44,28 @@
             </v-col>
           </v-row>
         </v-container>
+
+        <v-textarea
+          append-icon="mdi-comment"
+          class="mx-2"
+          label="メッセージを送信する"
+          rows="3"
+          auto-grow
+        >
+        </v-textarea>
       </v-main>
     </v-app>
   </template>
   
   <script>
     export default {
+      created(){
+        this.user_id = this.$route.query.user_id;
+        console.log('user_id', this.user_id);
+      },
       data: () => ({
-        cards: ['Today', 'Yesterday'],
+        user_id: '',
+        cards: ['Today'],
         drawer: null,
         links: [
           ['mdi-inbox-arrow-down', 'Inbox'],
@@ -62,3 +76,9 @@
       }),
     }
   </script>
+
+  <style>
+    .message{
+        text-align: left;
+    }
+  </style>
