@@ -35,6 +35,10 @@
           </v-btn>
 
           <v-btn> CLEAR </v-btn>
+
+          <v-alert dense outlined type="error" class="error-message" v-if="errorMessage">
+            {{ errorMessage }}
+          </v-alert>
         </v-form>
       </v-card>
     </div>
@@ -56,6 +60,9 @@
 .login-btn {
   margin-right: 10px;
 }
+.error-message {
+  margin-top: 20px;
+}
 </style>
 
 <script>
@@ -75,6 +82,7 @@ export default {
       (v) => /.+@.+\..+/.test(v) || "正しいメールアドレスを入力してください",
     ],
     password: "",
+    errorMessage: "",
   }),
   computed: {
     isValid() {
@@ -98,12 +106,17 @@ export default {
         .createUserWithEmailAndPassword(this.email, this.password)
         .then(async (result) => {
           console.log("sucsees", result);
-          await result.user.updateProfile(
-            {displayName: this.name}
-          )
+          await result.user.updateProfile({ displayName: this.name });
+
+          localStorage.message = "新規作成に成功しました"
+
+          //リダイレクト
+          this.$router.push("/userlogin");
         })
         .catch((error) => {
           console.log("fail", error);
+          //エラーメッセージを表示
+          this.errorMessage = " ユーザーの新規作成に失敗しました"
         });
     },
   },

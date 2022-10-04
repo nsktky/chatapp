@@ -29,7 +29,7 @@ const routes = [
     component: ChatBoard
   },
   {
-    path: '/userLogin',
+    path: '/userlogin',
     name: 'UserLogin',
     component: UserLogin
   },

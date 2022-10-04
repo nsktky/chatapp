@@ -13,12 +13,17 @@
             required
           ></v-text-field>
 
-          <v-text-field 
-            v-model="password" type="password" label="Password"> </v-text-field>
+          <v-text-field v-model="password" type="password" label="Password">
+          </v-text-field>
 
-          <v-btn color="success" class="login-btn" :disabled="isValid"> LOGIN </v-btn>
+          <v-btn color="success" class="login-btn" :disabled="isValid">
+            LOGIN
+          </v-btn>
 
           <v-btn> CLEAR </v-btn>
+          <v-alert dense text type="success" class="success-message" v-if="message">
+            {{ message }}
+          </v-alert>
         </v-form>
       </v-card>
     </div>
@@ -37,8 +42,11 @@
 .login-title {
   display: inline-block;
 }
-.login-btn{
-    margin-right: 10px;
+.login-btn {
+  margin-right: 10px;
+}
+.success-message {
+  margin-top: 20px
 }
 </style>
 
@@ -57,11 +65,18 @@ export default {
       (v) => /.+@.+\..+/.test(v) || "正しいメールアドレスを入力してください",
     ],
     password: "",
+    message: "",
   }),
+  mounted() {
+    if (localStorage.message) {
+      this.message = localStorage.message;
+      localStorage.message = "";
+    }
+  },
   computed: {
     isValid() {
-        return !this.valid;
-    }
+      return !this.valid;
+    },
   },
   methods: {
     validate() {
