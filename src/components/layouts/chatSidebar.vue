@@ -1,7 +1,19 @@
 <template>
   <v-navigation-drawer v-model="drawer" app>
     <v-sheet color="grey lighten-4" class="pa-4">
-      <v-avatar class="mb-4" color="grey darken-1" size="64"></v-avatar>
+      <v-avatar color="indigo">
+        <input
+          type="file"
+          ref="fileInput"
+          accept="image/jpeg, image/jpg, image/png"
+          style="display: none"
+          @change="updateIcon"
+        />
+        <v-icon dark v-if="!photoUrl" @click="changeIcon">
+          mdi-account-circle
+        </v-icon>
+        <img :src="photoUrl" @click="changeIcon" v-if="photoUrl"/>
+      </v-avatar>
 
       <div class="username">{{ auth && auth.displayName }}</div>
     </v-sheet>
@@ -37,6 +49,7 @@ import firebase from "@/firebase/firebase";
 export default {
   mounted() {
     this.auth = JSON.parse(sessionStorage.getItem("user"));
+    this.photoUrl = this.auth.photoURL
   },
   data: () => ({
     drawer: null,
@@ -47,6 +60,7 @@ export default {
       ["mdi-alert-octagon", "Spam", "/about"],
     ],
     auth: null,
+    photoUrl: null,
   }),
   methods: {
     logout() {
@@ -61,6 +75,45 @@ export default {
         .catch((error) => {
           console.log("fail", error);
         });
+    },
+    changeIcon() {
+      this.$refs.fileInput.click();
+    },
+    updateIcon() {
+      console.log("update call");
+      const user = this.getAuth();
+      if (!user) {
+        sessionStorage.removeItem("user");
+        this.$router.push("/userlogin");
+      }
+
+      const file = this.$refs.fileInput.files[0];
+      const filePath = `/user/${file.name}`;
+
+      firebase
+        .storage()
+        .ref()
+        .child(filePath)
+        .put(file)
+        .then(async (snapshot) => {
+          const photoUrl = await snapshot.ref.getDownloadURL();
+          firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+              user.updateProfile({
+                photoURL: photoUrl,
+              });
+              this.auth.photoURL = photoUrl;
+              sessionStorage.setItem("user", JSON.stringify(this.auth));
+
+              this.photoUrl = photoUrl;
+            }
+          });
+        });
+    },
+    getAuth() {
+      return firebase.auth().onAuthStateChanged((user) => {
+        return user;
+      });
     },
   },
 };

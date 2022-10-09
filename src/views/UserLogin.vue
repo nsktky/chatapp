@@ -127,9 +127,11 @@ export default {
             displayName: result.user.displayName,
             email: result.user.email,
             uid: result.user.uid,
-            refreshToken: result.user.refreshToken
+            refreshToken: result.user.refreshToken,
+            photoURL: result.user.photoURL
           }
 
+          // authをセッションストレージで管理
           sessionStorage.setItem('user', JSON.stringify(auth))
 
           this.$router.push('/')
