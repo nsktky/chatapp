@@ -3,6 +3,7 @@
     <chatSidebar />
     <v-app-bar app shrink-on-scroll>
       <v-toolbar-title>ルーム一覧</v-toolbar-title>
+      <CreateRoom/>
 
       <v-spacer></v-spacer>
 
@@ -44,10 +45,13 @@
 
 <script>
 import chatSidebar from "@/components/layouts/chatSidebar";
+import CreateRoom from "@/components/modal/CreateRoom";
+
 import firebase from "@/firebase/firebase";
 export default {
   components: {
     chatSidebar,
+    CreateRoom,
   },
   data: () => ({
     rooms: [],
