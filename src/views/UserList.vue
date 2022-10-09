@@ -5,7 +5,7 @@
         app
         shrink-on-scroll
       >  
-        <v-toolbar-title>ユーザーいちらん</v-toolbar-title>
+        <v-toolbar-title>user一覧</v-toolbar-title>
   
         <v-spacer></v-spacer>
   

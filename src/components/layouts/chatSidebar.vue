@@ -12,7 +12,7 @@
         <v-icon dark v-if="!photoUrl" @click="changeIcon">
           mdi-account-circle
         </v-icon>
-        <img :src="photoUrl" @click="changeIcon" v-if="photoUrl"/>
+        <img :src="photoUrl" @click="changeIcon" v-if="photoUrl" />
       </v-avatar>
 
       <div class="username">{{ auth && auth.displayName }}</div>
@@ -49,7 +49,7 @@ import firebase from "@/firebase/firebase";
 export default {
   mounted() {
     this.auth = JSON.parse(sessionStorage.getItem("user"));
-    this.photoUrl = this.auth.photoURL
+    this.photoUrl = this.auth.photoURL;
   },
   data: () => ({
     drawer: null,
