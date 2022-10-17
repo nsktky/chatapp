@@ -65,7 +65,10 @@ export default {
       const roomRef = firebase.firestore().collection("rooms");
       const snapshot = await roomRef.get();
       snapshot.forEach((doc) => {
-        this.rooms.push(doc.data());
+        const data = {...doc.data()}
+        data.id = doc.id
+        this.rooms.push(data);
+        console.log('data:', data)
       });
     },
   },
